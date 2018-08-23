@@ -5,8 +5,8 @@ pipeline {
   
     stage('Preparation') { 
       // Get some code from a GitHub repository
-      git 'https://github.com/Ashut1987/jenkins-ci-template.git'
-      
+      //git 'https://github.com/Ashut1987/jenkins-ci-template.git'
+        bat echo 'Build Started..'
    }
    stage('Build') {
       steps {
