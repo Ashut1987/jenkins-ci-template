@@ -1,1 +1,28 @@
 
+pipeline {
+  agent any
+  stages {
+  
+    stage('Preparation') { 
+      // Get some code from a GitHub repository
+      git 'https://github.com/Ashut1987/jenkins-ci-template.git'
+      
+   }
+   stage('Build') {
+      steps {
+                bat echo 'Checking node.js version..'
+                bat echo 'node -v'
+                bat echo 'Restore nugets..'
+                bat 'nuget restore mySolution.sln'
+                bat echo 'Building..'			
+                script {
+                         def msbuild = tool name: 'MSBuild', type: 'hudson.plugins.msbuild.MsBuildInstallation'
+                          bat "${msbuild} MyWindowsService.sln"
+                       }
+                bat 'nuget pack'
+                bat 'nuget push <abc> -Source Artifactory'
+            }
+     
+   }
+   
+}
