@@ -1,17 +1,25 @@
-pipeline {
-  agent any
-  stages {
-  
-      stage('Build') {
-      steps {
-               		
-                script {
-                         def msbuild = tool name: 'MSBuild', type: 'hudson.plugins.msbuild.MsBuildInstallation'
-                          bat "${msbuild} MyWindowsService.sln"
-                       }
-                
-            }
-     
-   }
-   
+node {
+
+stage 'Checkout'
+
+checkout scm
+
+
+
+stage 'Build'
+
+
+
+bat 'nuget restore src\MyWindowsService'
+
+bat "\"${tool 'msbuild'}\" MyWindowsService.sln /p:Configuration=Release"
+
+
+
+stage 'Run Tests'
+
+
+
+bat 'nunit3-console PageObjectPatternPoll\\bin\\Release\\SimpleDI.dll'
+
 }
