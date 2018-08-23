@@ -10,7 +10,7 @@ stage 'Build'
 
 
 
-bat 'nuget restore src\MyWindowsService'
+
 
 bat "\"${tool 'msbuild'}\" MyWindowsService.sln /p:Configuration=Release"
 
